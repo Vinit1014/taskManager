@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axiosInstance from '@/utils/axiosInstance';
-import { useNavigate } from 'react-router-dom';
+
 
 interface AppContextType {
   userInfo: any;
@@ -14,7 +14,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [userInfo, setUserInfo] = useState<any>(null);
     const [tasks, setTasks] = useState<any[]>([]);
-    const navigate = useNavigate();
 
     useEffect(()=>{
         console.log(tasks);
