@@ -11,7 +11,9 @@ const Home = () => {
 
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState(null);
+    console.log(userInfo);
     
+
     const onLogout = () => {
         localStorage.clear();
         navigate('/login');
