@@ -20,18 +20,18 @@ import {
 } from "@/components/ui/select"
 import { Task } from "@/types"
 import { Pencil } from 'lucide-react'
+import { useAppContext } from "@/context/AppContext"
+import axiosInstance from "@/utils/axiosInstance"
+import { toast } from "sonner"
 
-function formatDateTimeForInput(dateTimeString: string): string {
-  const date = new Date(dateTimeString);
-  return date.toISOString().slice(0, 16);
-}
 
 interface EditTaskDialogProps {
   task: Task
-  onUpdate: (task: Task) => void
+  index: any
 }
 
-export function EditTaskDialog({ task, onUpdate }: EditTaskDialogProps) {
+export function EditTaskDialog({ task, index }: EditTaskDialogProps) {
+  const { userInfo, setTasks } = useAppContext();
   const [open, setOpen] = useState(false)
   const [editedTask, setEditedTask] = useState({
     ...task,
@@ -40,16 +40,63 @@ export function EditTaskDialog({ task, onUpdate }: EditTaskDialogProps) {
   })
   const [status, setStatus] = useState(task.status === 'Finished')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  function formatDateTimeForInput(dateTimeString: string): string {
+    if (!dateTimeString) {
+      return ""; // Return empty string if no valid date
+    }
+
+    const [date, time] = dateTimeString.split(' '); // Split date and time
+    const [day, month, year] = date.split('-');   // Reformat dd-mm-yyyy to yyyy-mm-dd
+    const formattedDate = `${year}-${month}-${day}`;
+    return `${formattedDate}T${time}`; // Return in yyyy-mm-ddTHH:mm format
+  }
+
+
+  // useEffect(()=>{
+  //   console.log(editedTask);
+  // },[task])
+
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const updatedTask: Task = {
       ...editedTask,
       status: status ? 'Finished' : 'Pending',
-      startTime: new Date(editedTask.startTime).toLocaleString(),
-      endTime: new Date(editedTask.endTime).toLocaleString()
+      // startTime: editedTask.startTime,
+      startTime: new Date(editedTask.startTime).toISOString(),
+      // endTime: editedTask.endTime
+      endTime: new Date(editedTask.endTime).toISOString()
     };
-    onUpdate(updatedTask);
-    setOpen(false);
+
+    try {
+      const dataa = {
+        title: updatedTask.title,
+        startTime: updatedTask.startTime,
+        endTime: updatedTask.endTime,
+        priority: updatedTask.priority,
+        status: updatedTask.status,
+        userId: userInfo?.id
+      }
+
+      const response = await axiosInstance.put(`api/tasks/${task._id}`,dataa);
+      console.log(response);
+      
+      toast.success("Updated successfully");
+
+      if (response.status == 200) {
+        const updatedTasks = await axiosInstance.get(`/api/tasks/${userInfo.id}`);
+        setTasks(updatedTasks.data);
+        
+      }
+      setOpen(false);
+      // onUpdate(response.data);
+
+    } catch (error) {
+      console.error("Error updating task:", error);
+      toast.error("Error in updating.")
+    }
+
+  
   };
 
   return (
@@ -63,7 +110,7 @@ export function EditTaskDialog({ task, onUpdate }: EditTaskDialogProps) {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <div className="text-sm">Task ID: {task.id}</div>
+            <div className="text-sm">Task ID: {index}</div>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>

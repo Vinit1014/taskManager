@@ -1,5 +1,5 @@
 export interface Task {
-    id: number
+    _id: string
     title: string
     priority: number
     status: 'Pending' | 'Finished'
