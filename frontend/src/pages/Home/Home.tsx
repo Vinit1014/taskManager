@@ -42,7 +42,7 @@ const Home = () => {
         <Tabs defaultValue="dashboard">
             <div className="flex h-16 items-center px-4 border-b">
                 <div className="flex items-center gap-4">
-                <h2 className="text-lg font-semibold">Dashboard</h2>
+                <h2 className="text-lg font-semibold">TaskManager</h2>
                 <TabsList>
                     <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
                     <TabsTrigger value="task-list">Task list</TabsTrigger>
