@@ -73,7 +73,7 @@ const SignUp = () => {
           <form onSubmit={handleSignUp}>
             <h4 className="text-2xl mb-7">Sign Up</h4>
 
-            {/* Name Input */}
+          
             <input
               type="text"
               placeholder="Name"
@@ -85,7 +85,7 @@ const SignUp = () => {
               <p className="text-red-500 text-sm mt-1">{error.name}</p>
             )}
 
-            {/* Email Input */}
+      
             <input
               type="text"
               placeholder="Email"
@@ -97,7 +97,7 @@ const SignUp = () => {
               <p className="text-red-500 text-sm mt-1">{error.email}</p>
             )}
 
-            {/* Password Input */}
+          
             <PasswordInput
               value={password}
               onChange={(e:any) => setPassword(e.target.value)}
@@ -107,12 +107,12 @@ const SignUp = () => {
               <p className="text-red-500 text-sm mt-1">{error.password}</p>
             )}
 
-            {/* Submit Button */}
+            
             <button type="submit" className="btn-primary">
               Sign Up
             </button>
 
-            {/* Link to Login */}
+            
             <p className="text-sm text-center mt-4">
               Already have an account?{' '}
               <Link to="/login" className="font-medium text-primary underline">

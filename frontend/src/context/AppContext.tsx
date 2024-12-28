@@ -29,7 +29,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         } catch (error: any) {
             if (error.response?.status === 401) {
                 localStorage.clear();
-                navigate('/login');
+                // navigate('/login');
             }
         }
     };
