@@ -1,2 +1,2 @@
-export const BASE_URL = "http://localhost:5000";
-// export const BASE_URL = "https://todoapp-q7ji.onrender.com";
+// export const BASE_URL = "http://localhost:5000";
+export const BASE_URL = "https://taskmanager-p15z.onrender.com";
